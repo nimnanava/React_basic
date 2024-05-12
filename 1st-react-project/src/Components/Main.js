@@ -8,7 +8,7 @@
 // }
 
 
-function Main({children, name, city, position}){
+function Main({ name, city, position}){
   // const{city} = myObj
   return(
     <div>
@@ -16,12 +16,11 @@ function Main({children, name, city, position}){
       <ul>
         <li>{name}</li>
         <li>{position}</li>
-        {/* <li>{myObj.name}</li>
-        <li>{myObj.position}</li> */}
+     
         <li>{city}</li>
         
       </ul>
-      {children} 
+     
     </div>
   )
 }
