@@ -1,25 +1,17 @@
-// const name = 'Nimna navanjana'
-// const position = 'web developer'
 
-// const myObj ={
-//   name : `${name}` ,
-//   position : `${position}`,
-//   city : 'Rikillagaskada'
-// }
 
 
 function Main({ name, city, position}){
-  // const{city} = myObj
+  
   return(
     <div>
-      this is main Components
-      <ul>
-        <li>{name}</li>
-        <li>{position}</li>
-     
-        <li>{city}</li>
-        
-      </ul>
+    
+    <img src="https://img.freepik.com/premium-photo/taddy-bear-white-clod-high-definition-photographic-creative-image_993236-63633.jpg"
+    alt="card imge" />
+
+    <div className="mainBlock_detais"><h3>{name}</h3>
+    <p><span>{city}</span> <span>{position}</span></p>
+    </div>
      
     </div>
   )
