@@ -1,70 +1,79 @@
-
-import { useState } from 'react';
-import './App.css';
-import Main from './Components/Main';
-import myData from './data/myData' ;
+import { useState } from "react"
+import './App.css'
+import './unit'
 
 
 
 
 
-function App() {
-
-
-
-
-  const [inputVal, setInputVal] = useState(0)
-
-  
-const clickHandle = () => {
-setTimeout(()=>{
-  console.log('i am cliked')
-
-setInputVal((pre)=>{
-  if(pre<1){
-    return pre+1
-  }else if(pre<2){
-    return pre+3
-  }else{
-    return pre+2
-  }
-});
-}, 1000);
-}
-// console.log(inputVal);
-  const mainBlok = myData.map(({name , city, position, id}) => {
-    return <Main key={id} name={name} city={city} position={position} />
-  });
-
-  const inputChangeHandle = (event , data)=>{
-    event.preventDefault()
-    console.log(data)
-    setInputVal(event.target.value)
-  }
+const App = ()=>{
+  const[imageUrl ,setImageUrl] = useState('')
+  const[name ,setName] = useState('')
+  const[city ,setCity] = useState('')
+  const[position ,setPosition] = useState('')
  
-  return (
-    <div className='main_container'>
-  <h1>{inputVal}</h1>
+  const [myData, setMydata] = useState([])
 
-    
-    <div className='mainBlok_container'>
-      {mainBlok}
-      <br /><br />
-      <button style={
-        {
-          fontSize:'12px',
-          border : '1px solid red',
-          padding: '7px 12px'
-        }
+return(
+  <div className="main_Container">
+    <div className="main_left">
+      <input type="text" placeholder="" value={imageUrl} onChange={(e)=>{
+        e.preventDefault()
+        setImageUrl(e.target.value)
       }
-      
-      onClick={clickHandle}
-      >Click Me</button>
-      </div>
+      }/>
+      <input type="text" placeholder="" value={name}onChange={(e)=>{
+        e.preventDefault()
+        setName(e.target.value)
 
+      }
+      }/>
+      <input type="text" placeholder="" value={city}onChange={(e)=>{
+        e.preventDefault()
+        setCity(e.target.value)
+      }
+      }/>
+      <input type="text" placeholder="" value={position}onChange={(e)=>{
+        e.preventDefault()
+        setPosition(e.target.value)
 
+      }
+      }/>
+      <button onClick={()=> 
+        { setMydata(pre=>{
+          return [...pre,{
+            image:imageUrl,
+            name,
+            city,
+            position,
+          }]
+        })
+          
+
+          setImageUrl((pre)=>{
+            if(pre.length>0){
+              return '';
+            }else{
+              return pre;
+            }
+          });
+          setName(pre=>pre.length>0?(""):(pre))
+          setCity(pre=>pre.length>0?(""):(pre))
+          setPosition(pre=>pre.length>0?(""):pre)
+        }
+      }>Submit</button>
     </div>
-  );
+    <div className="main_right">
+        {myData?.map(({image,name,city,position},index)=><Unit
+        image={image}
+        name ={name}
+        city={city}
+        position={position}
+        key ={index}
+        />)}
+    </div>
+  </div>
+)
 }
 
-export default App;
+export default App
