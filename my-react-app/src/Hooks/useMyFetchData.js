@@ -1,47 +1,44 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from "react";
 
+function useMyFetchData(Location , id=null) {
+  const url = "https://jsonplaceholder.typicode.com/";
 
+  const [data, setData] = useState([]);
 
-function useMyFetchData(Location="posts") {
-
-  const url ="https://jsonplaceholder.typicode.com/"
-
-
-
-  const[ data , setData] = useState([])
-
-  const  getData = async()=>{
-    try{
-  const res = await fetch(url)
-  const data = await res.json()
-  if(data){
-    return data
-  }else{
-    return ([])
-  }
-    }catch(err){
-      console.log(err)
-      return([])
+  const getData = async (getLocation= Location, getId=id) => {
+    try {
+      const res = await fetch(`${url + getLocation}/${getId?getId:''}`);
+      const data = await res.json();
+      if (data) {
+        console.log("get data from db");
+        setData(data);
+      } else {
+        console.log("con not get data from db");
+        setData([]);
+      }
+    } catch (err) {
+      console.log(err);
+      return [];
     }
-  }
+  };
 
-  useEffect(()=>{
-    const myData = async ()=>{
+   useEffect(()=>{
 
-      const fetchData = await getData(`${url+Location}`)
-      setData(fetchData)
-
+    let canGetData = true
+    if (canGetData){
+      getData();
     }
+ 
 
-    if (url && Location){
-        myData()
-     
+    return()=>{
+      console.log('useEffect clenup')
+      canGetData = false
     }
+   },[])
 
-  },[url , Location])
 
-  return data
 
+  return [data, getData];
 }
 
-export default useMyFetchData
+export default useMyFetchData;

@@ -1,13 +1,39 @@
-import React from 'react'
+
+
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import Post from './Componat/Post'
+import PostUnit from './Componat/PostUnit'
+import Common from './Componat/Common'
 import useMyFetchData from './Hooks/useMyFetchData'
 
 const App = () => {
 
-  const data = useMyFetchData("photos")
-  console.log(data)
+
+
+
+
+  const router = createBrowserRouter([
+
+    {
+      path: '/',
+      element : <Common />
+    },
+    {
+      path : 'post',
+      element : <Post />
+    },
+
+    {
+      path : 'post/:id',
+      element : <PostUnit />
+    }
+  ])
   return (
     <div>
-   
+      
+
+        <RouterProvider router={router} />
+     
     </div>
    
   )
