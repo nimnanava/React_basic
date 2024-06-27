@@ -1,39 +1,27 @@
-import axios from 'axios'
-import React, { useEffect, useRef, useState } from 'react'
-import PopUp from './Componat/PopUp'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 function App() {
-  const [data , setData] =useState([])
-  const[reFetch , setReFetch] = useState(0)
-  const popUp = useRef()
 
-  useEffect(()=>{
-    const controller = new AbortController()
-    console.log('useEffect running....', controller.signal)
-
-    axios.get('https://jsonplaceholder.typicode.com/posts', {
-      signal : controller.signal
-    })
-    .then(res=>{
-      console.log('get data')
-      popUp.current.showPopUp()
-     setData(res.data)
-     setTimeout(()=>popUp.current.hidePopUp(),4000)
-    })
-  
-    .catch(err=>console.log(err))
-
-
-  return()=>{
-    console.log('useEffect cleanup...')
-    controller.abort()
-  }
-  },[reFetch])
+  const number =useSelector(store=>store.number)
+  const dispatch = useDispatch()
   return (
     <div>
-      <PopUp ref={popUp}/>
-      <button onClick={()=> setReFetch(pre => pre+1)}>ReFetch</button>
-      {data?.map((ele , i)=><h3 key={i}>{ele.title}</h3>)}
+      {number}
+      <div>
+        <button onClick={()=>{
+          dispatch({
+            type: 'increment',
+            payload : 7
+          })
+        }}>Increment</button>
+        <button  onClick={()=>{
+          dispatch({
+            type: 'discrement',
+            payload : 3
+          })
+        }}>Discrement</button>
+      </div>
     </div>
   )
 }
