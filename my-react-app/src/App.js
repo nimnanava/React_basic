@@ -1,29 +1,35 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
+
+import { decrement, increment, numberSliceSelector } from "./store/reducers/numberSlice";
+import LaptopComponat from "./Componat/LaptopComponat";
+
+
 
 function App() {
+  const number = useSelector(numberSliceSelector);
 
-  const number =useSelector(store=>store.number)
-  const dispatch = useDispatch()
+
+  
+  const dispatch = useDispatch();
+ 
   return (
     <div>
-      {number}
+      {number.number}
+     
+   
+
       <div>
-        <button onClick={()=>{
-          dispatch({
-            type: 'increment',
-            payload : 7
-          })
-        }}>Increment</button>
-        <button  onClick={()=>{
-          dispatch({
-            type: 'discrement',
-            payload : 3
-          })
-        }}>Discrement</button>
+        <button onClick={() => dispatch(increment(5))}>plus</button>
+        <button onClick={() => dispatch(decrement(5))}>-plus</button>
+      </div>
+
+ 
+      <div>
+       
+       <LaptopComponat />
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
