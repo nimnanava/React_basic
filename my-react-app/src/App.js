@@ -1,33 +1,46 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { decrement, increment, numberSliceSelector } from "./store/reducers/numberSlice";
-import LaptopComponat from "./Componat/LaptopComponat";
-
-
+import { selectLaptop } from "./Store/reducers/laptopSlice";
+import { addItemToCart, selectCart } from "./Store/reducers/cartSlice";
 
 function App() {
-  const number = useSelector(numberSliceSelector);
+  const laptop = useSelector(selectLaptop);
+  const cart = useSelector(selectCart);
 
+  const distpatch = useDispatch();
+  console.log(cart);
 
-  
-  const dispatch = useDispatch();
- 
+  let Total = 0;
+  if (Array.isArray(cart)) {
+    cart.map((ele) => {
+      Total = Total + ele.count * ele.price;
+    });
+  }
+
+  let cartCount = 0;
+  cart.forEach((ele)=>{
+    cartCount = cartCount + ele.count
+  })
+
   return (
     <div>
-      {number.number}
-     
-   
+      {laptop.map(({ price, cpu, ram, id }, i) => (
+        <p key={id}>
+          {price} | {cpu} | {ram}
+          <button onClick={() => distpatch(addItemToCart(id, price, cpu, ram))}>
+            Add To Cart
+          </button>
+        </p>
+      ))}
 
-      <div>
-        <button onClick={() => dispatch(increment(5))}>plus</button>
-        <button onClick={() => dispatch(decrement(5))}>-plus</button>
-      </div>
+      <br />
 
- 
-      <div>
-       
-       <LaptopComponat />
-      </div>
+      <h1>Cart</h1>
+      <hr />
+
+      <h3>{cartCount}</h3>
+
+      <h3>Total : rs {Total}</h3>
     </div>
   );
 }
