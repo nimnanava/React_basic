@@ -1,46 +1,66 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLaptop } from "./Store/reducers/laptopSlice";
-import { addItemToCart, selectCart } from "./Store/reducers/cartSlice";
+import {
+  getPost,
+  selectAll,
+  selectIds,
+  selectPostLoading,
+  updatePost,
+} from "./store/reducer/postSlice";
+import {
+  decrement,
+  increment,
+  numberSlecter,
+} from "./store/reducer/numberSlice";
+import Post from "./Componat/post";
+import { getUsers } from "./store/reducer/UsersSlice";
 
 function App() {
-  const laptop = useSelector(selectLaptop);
-  const cart = useSelector(selectCart);
+  const postTitleRef = useRef();
+  const postIdRef = useRef();
 
-  const distpatch = useDispatch();
-  console.log(cart);
+  const numbar = useSelector(numberSlecter);
 
-  let Total = 0;
-  if (Array.isArray(cart)) {
-    cart.map((ele) => {
-      Total = Total + ele.count * ele.price;
-    });
-  }
+  const selectPost = useSelector(selectIds);
 
-  let cartCount = 0;
-  cart.forEach((ele)=>{
-    cartCount = cartCount + ele.count
-  })
+  const postLoading = useSelector(selectPostLoading);
+
+  const dispatch = useDispatch();
+
+  console.log(selectPost);
 
   return (
     <div>
-      {laptop.map(({ price, cpu, ram, id }, i) => (
-        <p key={id}>
-          {price} | {cpu} | {ram}
-          <button onClick={() => distpatch(addItemToCart(id, price, cpu, ram))}>
-            Add To Cart
-          </button>
-        </p>
-      ))}
-
-      <br />
-
-      <h1>Cart</h1>
+      <h1>{numbar}</h1>
+      {postLoading !== "completed" ? <h1>loading...........</h1> : null}
+      <button onClick={() => dispatch(increment("nimna", 3, "rikillagaskada"))}>
+        increment
+      </button>
+      <button onClick={() => dispatch(decrement(3))}>decrement</button> <br />
+      <button onClick={() => dispatch(getPost())}>get data</button>
+      <button onClick={() => dispatch(getUsers())}>get users data</button>
       <hr />
-
-      <h3>{cartCount}</h3>
-
-      <h3>Total : rs {Total}</h3>
+      <h2>Change Post</h2>
+      <input placeholder="post title" ref={postTitleRef} /> <br />
+      <input placeholder="post id" ref={postIdRef} /> <br />
+      <button
+        onClick={() =>
+          dispatch(
+            updatePost({
+              id: Number(postIdRef.current.value),
+              changes: {
+                title: postTitleRef.current.value,
+              },
+            })
+          )
+        }
+      >
+        {" "}
+        sumbit
+      </button>
+      {selectPost.map((postId) => (
+        <Post postId={postId} key={postId} />
+      ))}
     </div>
   );
 }
