@@ -47,17 +47,12 @@ const numberReducer = createReducer(initialState, (builder) => {
     state.users = action.payload;
   });
 });
-const numberSl = (store) =>{
+const numberSl = (store) => {
   return store.number.number;
-} 
+};
 
 export default numberReducer;
 
-export const numberSlecter = createSelector([numberSl], (num)=>{
-
-  return num
-
-})
-
-
-
+export const numberSlecter = createSelector([numberSl], (num) => {
+  return num;
+});
